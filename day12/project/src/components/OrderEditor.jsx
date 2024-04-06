@@ -2,17 +2,17 @@ import { useRef, useState } from "react";
 
 const OrderEditor = () => {
   
-  // 유즈스테이트에 사용자의 주문 값들을 담을 order 객체의 세 개의 속성을 빈 문자열로 세팅
+  // 유즈스테이트에 사용자의 주문 값들을 담을 order 객체의 세 개의 프롭을 빈 문자열로 세팅
   const [order, setOrder] = useState({
     menu: "",
     address: "",
     request: ""
   });
 
-  // 각각 어느 필드에서 넘어온 정보인지를 구별하기 위해 각 태그에 name속성을 지정 후 해당 속성의 값에 따라 상태 객체의 특정 값을 업데이트 합니다.
+  // 각각 어느 필드에서 넘어온 정보인지를 구별하기 위해 각 태그에 name프롭을 지정 후 해당 프롭의 값에 따라 상태 객체의 특정 값을 업데이트 합니다.
   const handleStatesChanger = (event) => {
     const { name, value } = event.target
-    if (name === "menu") setOrder((order) => ({ ...order, menu: value })); // 이전 값을 펴낸 후(rest) 그 속성의 특정 속성 값만 변경
+    if (name === "menu") setOrder((order) => ({ ...order, menu: value })); // 이전 값을 펴낸 후(rest) 그 중 특정 프롭의 값만 변경후 객체로 다시 반환
     else if (name === "address") setOrder((order) => ({ ...order, address: value }));
     else if (name === "request") setOrder((order) => ({...order, request : value }));
   };
@@ -54,8 +54,8 @@ const OrderEditor = () => {
           style={{ width: 300, padding: 5 }}
           placeholder="주소) 서울특별시 xx동 .."
           value={order.address} 
-          name="address" // 공통 핸들러의 식별값
-          ref={refAddress} // 해당 돔 요소를 refAddress(useRef)가 참조할 수 있도록 하는 속성
+          name="address" // 공통 핸들러의 식별 프롭
+          ref={refAddress} // 해당 돔 요소를 refAddress(useRef)가 참조할 수 있도록 하는 프롭
           onChange={handleStatesChanger}
         />
       </div>
