@@ -13,6 +13,7 @@ function reducer (state, action){
   }
 }
 
+// Provider 제공을 위한 createContext 호출
 export const ContactStateContext  = createContext()
 export const ContactDispatchContext  = createContext()
 
