@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import "./ContactEditor.css";
+import { useContext } from "react";
+import { ContactDispatchContext } from "../App";
 
-export default function ContactEditor({ onCreateContact }) {
-  
+function ContactEditor() {
+  const {onCreateContact} = useContext(ContactDispatchContext)
   const [state, setState] = useState({
     name: "",
     contact: "",
@@ -44,3 +46,12 @@ export default function ContactEditor({ onCreateContact }) {
     </div>
   );
 }
+
+// ContactEditor는 사용자가 입력을 매번 할때와 버튼을 누를 때 리렌더링이 됩니다. 그러므로 리렌더링 되어야하는 name과 contact, onCreateContact에 리렌더링 최적화를 해줄 필요가 싶기는 한데...
+// 그래도 굳이 해보자면 이전 onCreateContact와 이후 onCreateContact를 비교해보는 정도라고 생각되었습니다. (물론 onCreateContact도 App.jsx에서 useCallback으로 최적화를 하고 있긴 하지만...)
+export default memo(ContactEditor, (prevProps, nextProps) => {
+  if (prevProps.onCreateContact !== nextProps.onCreateContact) return false;
+  // 이 경우 앞전의 useCallback의 사용을 이미 한 상황이므로, 해당 훅이 적용되어 있는 한 console.log를 출력하지는 않을 것입니다.
+  console.log(`삐빅, 동일한 생성 함수입니다!`)
+  return true;
+})
