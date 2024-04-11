@@ -1,9 +1,11 @@
 import React from 'react'
 import './TodoItem.css'
+import { memo, useContext } from "react";
+import { TodoDispatchContext } from "../App";
 
+function TodoItem({id, isDone, content, date,}) {
 
-export default function TodoItem({ id, isDone, content, date, onUpdate, onDelete }) {
-
+  const { onUpdate, onDelete } = useContext(TodoDispatchContext)
   const onChangeCheckbox = () => {
     onUpdate(id);
   }
@@ -22,3 +24,15 @@ export default function TodoItem({ id, isDone, content, date, onUpdate, onDelete
     </div>
   )
 }
+
+//  
+export default memo(TodoItem, (prevProps, currentProps) => {
+  // 콜백 함수의 매개변수는 이전 프롭스와 현재의 프롭스. 이들을 비교하여 반환된 true 및 false에 따라 리렌더링(false)되거나 상태를 유지(true)함.
+  // 
+  if (prevProps.id !== currentProps.id) return false;
+  if (prevProps.isDone !== currentProps.isDone) return false;
+  if (prevProps.content !== currentProps.content) return false;
+  if (prevProps.date !== currentProps.date) return false;
+
+  return true;
+});
