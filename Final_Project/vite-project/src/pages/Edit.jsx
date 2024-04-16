@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useState, useContext, useEffect } from "react";
 import { DiaryDispatchContext, DiaryStatesContext } from "../App";
 import useDiary from "../hooks/useDiary";
+import usePageTitle from "../hooks/usePageTitle";
 
 export default function Edit() {
   
@@ -12,7 +13,8 @@ export default function Edit() {
   // useParams를 이용해 주소 뒤의 id값을 입력 받을 수 있게 됩니다.
   const params = useParams();
   const nav = useNavigate(params.id);
-
+  usePageTitle(`${params.id}번 일기 수정`)
+  
   const curDiaryItem = useDiary(params.id)
     // 삭제버튼 발동시 삭제 과정을 처리하는 클릭 이벤트 핸들러 생성
   const { onDeleteDiary, onUpdateDiary } = useContext(DiaryDispatchContext)
