@@ -1,16 +1,29 @@
-import React from 'react'
-import { useSearchParams } from "react-router-dom"
+import Button from "../components/Button";
+import Header from "../components/Header";
+import React, { useContext } from 'react'
+import { useNavigate } from "react-router-dom";
+import { DiaryDispatchContext } from "../App";
+import Editor from "../components/Editor";
 
 export default function New() {
 
-  // useSearchParams 해당 훅을 이용하면 useState와 비슷하게 사용자가 전달한 쿼리 스트링의 값이 params에 저장되고, setParams를 통해 해당 값을 제어할 수 있게 해주는 커스텀 훅.
-  const [params, setParams] = useSearchParams();
+  const nav = useNavigate();
 
-  const value = params.get("value");
+  const {onCreateDiary} = useContext(DiaryDispatchContext)
 
+  const onSubmit = (input) => {
+    onCreateDiary(input.createDate.getTime(), input.emotionId, input.content);
+    // 뒤로 가기를 방지하기 위해 두번째 매개변수로 replace옵션을 true로 설정해서 이전 히스토리 대신 '/' 경로를 덮어 씌우고 이동.
+    nav('/', {replace : true});
+  }
   return (
     <div>
-      {`입력된 주소는 ${value} 입니다. `}
+      <Header
+        title={"새 일기 쓰기"}
+        // useNavitage의 인자로 -1을 입력하면 뒤로, 1을 입력하면 앞으로 이동합니다. (단계별 이동 가능)
+        leftChild={<Button onClick={() => nav(-1)} text={"< 뒤로 가기"} />}
+      />
+    <Editor onSubmit={onSubmit}/>
     </div>
   )
 }
